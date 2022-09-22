@@ -89,7 +89,7 @@ model.compile(optimizer= 'adam',
 
 model.summary()
 
-epochs = 10
+epochs = 15
 history = model.fit(
     train_ds,
     validation_data=val_ds,
@@ -155,7 +155,7 @@ plt.show()
 
 
 
-sunflower_path = "03e58fc1af619e267802f56b6dafc142.png"
+sunflower_path = "sad-sadness-emotion-feeling-overthinking-people-human-watercolor-painting-art-design-illustration-181923125.jpg"
 
 img = tf.keras.utils.load_img(
     sunflower_path, target_size=(img_height, img_width)

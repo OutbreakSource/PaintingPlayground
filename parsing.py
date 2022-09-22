@@ -9,11 +9,11 @@ import os
 data = pandas.read_csv('WikiArt-Emotions-All.tsv', sep='\t')
 
 df = pandas.DataFrame(data)
-cols = [2, 3, 4, 6, 7, 30, 34, 35, 37, 43, 5]
+cols = [2, 3, 4, 6, 7, 30, 34, 35, 37, 43, 5, 40, 39, 29]
 df = df[df.columns[cols]]
 
 
-def getImages(i, row):
+def getImages(i, row, anger, disgust, fear, sadness, happiness, optimism, love, agreebleness):
     try:
         query = row[1] + " " + row[2] + " " + row[10]
         driver.get('https://images.google.com/')
@@ -26,8 +26,10 @@ def getImages(i, row):
                 '//*[@id="islrg"]/div[1]/div[' +
                 str(i) + ']/a[1]/div[1]/img')
             time.sleep(.5)
-            img.screenshot('Download-Location' +
-                           query + ' (' + str(i) + ').png')
+            score = str(anger) + "-" + str(disgust) + "-" + str(fear) + "-" + str(sadness) \
+                    + "-" + str(happiness) \
+                    + "-" + str(optimism) + "-" + str(love) + "-" + str(agreebleness)
+            img.screenshot(score + "-" + row[1] + '.png')
             time.sleep(.5)
         except:
             print("fight captcha")
@@ -45,40 +47,54 @@ for index, row in df.iterrows():
          row[0] == 'Expressionism' or
          row[0] == 'Abstract Art' or
          row[0] == 'Abstract Expressionism' or
-         row[0] == 'Post-Impressionism') and
-            row[4] == 'none' and
+         row[0] == 'Post-Impressionism' or
+         row[0] == 'Neo-Expressionism' or
+         row[0] == 'Lyrical Abstraction') and
             row[3] == 'yes'):
         anger = row[5]
         disgust = row[6]
         fear = row[7]
         happiness = row[8]
         sadness = row[9]
-        if (anger > max(disgust, fear, happiness, sadness)):
+        optimism = row[11]
+        love = row[12]
+        agreeableness = row[13]
+        if (anger > max(disgust, fear, sadness, happiness, optimism, love, agreeableness)):
             os.chdir("C:\\Users\danie\\PycharmProjects\\PaintingPlayground\\anger")
-            getImages(1, row)
+            getImages(1, row, anger, disgust, fear, sadness, happiness, optimism, love, agreeableness)
             count += 1
-
-        elif (disgust > max(anger, fear, happiness, sadness)):
+        elif (disgust >max(anger, fear, sadness, happiness, optimism, love, agreeableness)):
             os.chdir("C:\\Users\danie\\PycharmProjects\\PaintingPlayground\\disgust")
-            getImages(1, row)
+            getImages(1, row, anger, disgust, fear, sadness, happiness, optimism, love, agreeableness)
             count += 1
 
 
-        elif (fear > max(disgust, anger, happiness, sadness)):
+        elif (fear > max(disgust, anger, sadness, happiness, optimism, love, agreeableness)):
             os.chdir("C:\\Users\danie\\PycharmProjects\\PaintingPlayground\\fear")
-            getImages(1, row)
+            getImages(1, row, anger, disgust, fear, sadness, happiness, optimism, love, agreeableness)
             count += 1
 
-
-        elif (happiness > max(disgust, fear, anger, sadness)):
+        elif (happiness > max(disgust, fear, sadness, anger, optimism, love, agreeableness)):
             os.chdir("C:\\Users\danie\\PycharmProjects\\PaintingPlayground\\happiness")
-            getImages(1, row)
+            getImages(1, row, anger, disgust, fear, sadness, happiness, optimism, love, agreeableness)
             count += 1
 
 
-        elif (sadness > max(disgust, fear, happiness, anger) and sadness > .2):
+        elif (sadness > max(disgust, fear, anger, happiness, optimism, love, agreeableness)):
             os.chdir("C:\\Users\danie\\PycharmProjects\\PaintingPlayground\\sadness")
-            getImages(1, row)
+            getImages(1, row, anger, disgust, fear, sadness, happiness, optimism, love, agreeableness)
+            count += 1
+        elif (optimism > max(disgust, fear, anger, happiness, sadness, love, agreeableness)):
+            os.chdir("C:\\Users\danie\\PycharmProjects\\PaintingPlayground\\optimism")
+            getImages(1, row, anger, disgust, fear, sadness, happiness, optimism, love, agreeableness)
+            count += 1
+        elif (love > max(disgust, fear, sadness, happiness, optimism, anger, agreeableness)):
+            os.chdir("C:\\Users\danie\\PycharmProjects\\PaintingPlayground\\love")
+            getImages(1, row, anger, disgust, fear, sadness, happiness, optimism, love, agreeableness)
+            count += 1
+        elif (agreeableness > max(disgust, fear, sadness, happiness, optimism, love, anger)):
+            os.chdir("C:\\Users\danie\\PycharmProjects\\PaintingPlayground\\agreeableness")
+            getImages(1, row, anger, disgust, fear, sadness, happiness, optimism, love, agreeableness)
             count += 1
         print(index)
 
