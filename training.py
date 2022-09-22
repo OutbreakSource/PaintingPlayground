@@ -130,7 +130,7 @@ history = model.fit(
     epochs=epochs
 )
 
-model.save('model.h5')
+model.save('modelNewSamples.h5')
 acc = history.history['accuracy']
 val_acc = history.history['val_accuracy']
 
@@ -155,7 +155,7 @@ plt.show()
 
 
 
-sunflower_path = "sad-sadness-emotion-feeling-overthinking-people-human-watercolor-painting-art-design-illustration-181923125.jpg"
+sunflower_path = "vag.jpg"
 
 img = tf.keras.utils.load_img(
     sunflower_path, target_size=(img_height, img_width)

@@ -3,7 +3,9 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.keys import Keys
 import time
-import os
+import os, os.path
+import fnmatch
+
 
 
 data = pandas.read_csv('artemis_dataset_release_v0.csv', sep=',')
@@ -48,9 +50,11 @@ for index, row in data.iterrows():
         art = row[1]
         emotion = row[2]
         occur = row[4]
-
         os.chdir('C:\\Users\\danie\\PycharmProjects\\PaintingPlayground\\ArtSamples\\' + emotion)
-        getImages(1, row, occur)
-        print(os.getcwd())
+        cwd = os.getcwd()
+        if(len(fnmatch.filter(os.listdir(cwd), '*.*')) <= 150):
+            getImages(1, row, occur)
+            print(os.getcwd())
+
 
 driver.close()
