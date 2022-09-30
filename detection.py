@@ -19,7 +19,7 @@ img = tf.keras.utils.load_img(
     image, target_size=(img_height, img_width)
 )
 img_array = tf.keras.utils.img_to_array(img)
-img_array = tf.expand_dims(img_array, 0) # Create a batch
+img_array = tf.expand_dims(img_array, 0)  # Create a batch
 
 predictions = model.predict(img_array)
 score = tf.nn.softmax(predictions[0])
@@ -27,9 +27,33 @@ score = tf.nn.softmax(predictions[0])
 print(score)
 print(
     "This image most likely belongs to {} with a {:.2f} percent confidence."
-    .format(class_names[np.argmax(score)], 100 * np.max(score))
+        .format(class_names[np.argmax(score)], 100 * np.max(score))
 )
 img = matplotlib.image.imread(image)
 plt.imshow(img)
 plt.title(class_names[np.argmax(score)])
 plt.show()
+
+import plotly.express as px
+import pandas
+
+
+import plotly.graph_objects as go
+
+fig = go.Figure(data=go.Scatterpolar(
+  r=score,
+  theta=class_names,
+  fill='toself'
+))
+
+fig.update_layout(
+  polar=dict(
+    radialaxis=dict(
+      visible=True,
+        range=[0,1]
+    ),
+  ),
+  showlegend=False
+)
+
+fig.show()

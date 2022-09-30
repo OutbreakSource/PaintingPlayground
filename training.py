@@ -1,19 +1,28 @@
 import os
 import pathlib
-
+from sklearn.neural_network import MLPClassifier
 import matplotlib.image
 import numpy as np
 import tensorflow as tf
 from keras import layers
+import glob
 from keras.models import Sequential
 
+final_classes = ['amusement', 'anger', 'contentment', 'disgust', 'excitement', 'fear', 'sadness']
+data_dir = pathlib.Path("C:\\Users\\danie\\PycharmProjects\\PaintingPlayground\\ArtSamples-300 each")
 
-data_dir = pathlib.Path("C:\\Users\\danie\\PycharmProjects\\PaintingPlayground\\ArtSamples")
+for classI in final_classes:
+    temp = data_dir.joinpath(classI)
+    for filename in os.listdir(temp):
+        f = os.path.join(data_dir, filename)
+        print(f)
+
+
 
 image_count = len(list(data_dir.glob('*/*.jpg')))
 print(image_count)
 
-batch_size = 32
+batch_size = 50
 img_height = 180
 img_width = 180
 
@@ -89,7 +98,7 @@ model.compile(optimizer= 'adam',
 
 model.summary()
 
-epochs = 15
+epochs = 9
 history = model.fit(
     train_ds,
     validation_data=val_ds,
@@ -123,7 +132,7 @@ model.compile(optimizer='adam',
               loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True),
               metrics=['accuracy'])
 model.summary()
-epochs = 15
+epochs = 9
 history = model.fit(
     train_ds,
     validation_data=val_ds,

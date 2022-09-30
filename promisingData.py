@@ -52,9 +52,12 @@ for index, row in data.iterrows():
         occur = row[4]
         os.chdir('C:\\Users\\danie\\PycharmProjects\\PaintingPlayground\\ArtSamples\\' + emotion)
         cwd = os.getcwd()
-        if(len(fnmatch.filter(os.listdir(cwd), '*.*')) <= 150):
-            getImages(1, row, occur)
-            print(os.getcwd())
+        title = str(occur) + '--' + row[1] + '.png'
+        if title not in fnmatch.filter(os.listdir(cwd), '*.*'):
+            if len(fnmatch.filter(os.listdir(cwd), '*.*')) < 300:
+                getImages(1, row, occur)
+                print(os.getcwd())
+
 
 
 driver.close()
