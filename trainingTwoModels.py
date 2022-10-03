@@ -1,12 +1,5 @@
-import os
-import pathlib
-from sklearn.neural_network import MLPClassifier
-import matplotlib.image
-import numpy as np
 import tensorflow as tf
-from keras import layers
-import glob
-from keras.models import Sequential
+
 
 IMG_SIZE = 480
 img_data_shape = (IMG_SIZE, IMG_SIZE, 3)
@@ -45,15 +38,12 @@ model.compile(optimizer='adam',
               loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True),
               metrics=['accuracy'])
 
-
 BATCH_SIZE = 8
-train_image_data = tf.keras.utils.image_dataset_from_directory('C:\\Users\danie\\PycharmProjects\\PaintingPlayground'
-                                                               '\\ArtSamples-300 each',
+train_image_data = tf.keras.utils.image_dataset_from_directory("TestImages",
                                        validation_split=0.2, subset="training",
                                        seed=123, label_mode=None,
                                        image_size=(IMG_SIZE, IMG_SIZE), batch_size=BATCH_SIZE)
-test_image_data = tf.keras.utils.image_dataset_from_directory('C:\\Users\danie\\PycharmProjects\\PaintingPlayground'
-                                                               '\\ArtSamples-300 each',
+test_image_data = tf.keras.utils.image_dataset_from_directory("TestImages/anger",
                                        validation_split=0.2, subset="validation",
                                        seed=123, label_mode=None,
                                        image_size=(IMG_SIZE, IMG_SIZE), batch_size=BATCH_SIZE)
