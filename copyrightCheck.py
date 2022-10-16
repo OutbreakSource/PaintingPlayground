@@ -9,7 +9,6 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
-
 data = pandas.read_csv('artemis_dataset_release_v0.csv', sep=',')
 
 driver = webdriver.Chrome('chromedriver.exe')
@@ -53,13 +52,11 @@ def checkCopyRight(query):
             with open('safeList.csv', 'a') as fd:
                 writer = csv.writer(fd)
                 writer.writerow([query])
-
-
-
     except:
         with open('badList.csv', 'a') as fd:
             writer = csv.writer(fd)
             writer.writerow([query])
+
 
 def isItIn(name):
     flag = False
@@ -77,6 +74,7 @@ def isItIn(name):
         if any(name in item for item in reader):
             flag = True
     return flag
+
 
 files = []
 listOfDir = os.listdir('C:\\Users\\danie\\PycharmProjects\\PaintingPlayground\\ArtSamples-300 each')
