@@ -5,6 +5,8 @@ from selenium.webdriver.common.keys import Keys
 import time
 import os, os.path
 import fnmatch
+import re
+import csv
 
 
 
@@ -37,6 +39,15 @@ def getImages(i, row, occurence):
     except:
         print("oops")
 
+def refactorTitle(title):
+    title = re.sub('(_|-)', ' ', title)
+    title = re.sub('([0-9])', '', title)
+    title = re.sub('(.png)', '', title)
+    with open("C:\\Users\\danie\\PycharmProjects\\PaintingPlayground\\fixedLists\\badList.csv", "r") as f:
+        reader = csv.reader(f)
+        if any(title in item for item in reader):
+            return True
+    return False
 
 for index, row in data.iterrows():
     if (row[0] == 'Impressionism' or
@@ -50,10 +61,10 @@ for index, row in data.iterrows():
         art = row[1]
         emotion = row[2]
         occur = row[4]
-        os.chdir('C:\\Users\\danie\\PycharmProjects\\PaintingPlayground\\ArtSamples\\' + emotion)
+        os.chdir('C:\\Users\\danie\\PycharmProjects\\PaintingPlayground\\ArtSamples-300 each\\' + emotion)
         cwd = os.getcwd()
         title = str(occur) + '--' + row[1] + '.png'
-        if title not in fnmatch.filter(os.listdir(cwd), '*.*'):
+        if title not in fnmatch.filter(os.listdir(cwd), '*.*') and not refactorTitle(title):
             if len(fnmatch.filter(os.listdir(cwd), '*.*')) < 300:
                 getImages(1, row, occur)
                 print(os.getcwd())
